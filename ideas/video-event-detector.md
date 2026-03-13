@@ -208,7 +208,7 @@ handlers:
       event: "CHANGE"
     actions:
       - type: "vlm_describe"
-        model: "qwen3.5-vl"  # or any VLM
+        model: "qwen3-vl-30b-a3b"  # or any VLM
         prompt: "このスライドの内容を日本語で簡潔に要約してください"
       - type: "webhook"
         url: "https://discord.com/api/webhooks/..."
@@ -309,9 +309,18 @@ handlers:
 | Object Detection | YOLOv8-nano (Ultralytics) / ONNX Runtime |
 | 動画入力 | OpenCV / yt-dlp (YouTube) / ffmpeg |
 | STT | Moonshine STT / Whisper / faster-whisper |
-| VLM | **Qwen3.5-VL** / Qwen-VL / LLaVA / GPT-4V / Gemini Vision |
+| VLM | **Qwen3-VL** (推奨) / Qwen3.5-VL / LLaVA / GPT-4V / Gemini Vision |
 | 設定 | TOML / YAML |
 | 実装言語 | Python (推論) or Rust (高速化後) |
+
+### VLM 選定メモ: Qwen3-VL
+
+- **MMMU 80.6 / MathVision 88.6**（GPT-5超えのベンチマーク）
+- **GUI操作対応**: PC・スマホ画面のボタン・UI要素を認識してエージェント的に操作可能
+- dense (2B/4B/8B/32B) + MoE (30B-A3B/235B-A22B) バリアントあり
+- **30B-A3B (アクティブ3B)** がリアルタイム用途に最適（軽量・高速）
+- スライド解釈・GUI理解・動画内容把握に適しており AI Viewer のコア VLM として有力
+- 技術レポート: [arXiv 2511.21631](https://arxiv.org/abs/2511.21631)
 
 ---
 
