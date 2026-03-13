@@ -218,7 +218,7 @@ handlers:
       event: "APPEAR"
     actions:
       - type: "stt_start"
-        model: "moonshine"
+        model: "whisper"  # or any STT engine
 ```
 
 ---
@@ -234,7 +234,7 @@ handlers:
 **具体的シナリオ**:
 - connpass/YouTube Liveの勉強会URLを渡すだけで自動フォロー開始
 - 「page-number が変化した」→ そのフレームをVLMに投げて「このスライドは〇〇についての説明です」と要約
-- 発表者の音声をmoonshine-sttで文字起こし並走
+- 発表者の音声をSTTエンジンで文字起こし並走
 - 終了後にタイムスタンプ付きの議事録Markdownが生成される
 
 ---
@@ -308,8 +308,8 @@ handlers:
 |---|---|
 | Object Detection | YOLOv8-nano (Ultralytics) / ONNX Runtime |
 | 動画入力 | OpenCV / yt-dlp (YouTube) / ffmpeg |
-| STT | Moonshine STT (既存サーバー活用) |
-| VLM | qwen3-vl-30b (らぼみのエンドポイント活用) |
+| STT | Moonshine STT / Whisper / faster-whisper |
+| VLM | Qwen-VL / LLaVA / GPT-4V / Gemini Vision |
 | 設定 | TOML / YAML |
 | 実装言語 | Python (推論) or Rust (高速化後) |
 
@@ -320,7 +320,7 @@ handlers:
 1. **フレームキャプチャ**: YouTube Live URL → ffmpeg でフレーム取得
 2. **差分検知（pHash）**: まず軽量実装でスライド変化を検知
 3. **VLM連携**: 変化検知時にスクリーンショットをVLMに投げて要約
-4. **STT並走**: moonshine-stt にオーディオストリームを流す
+4. **STT並走**: STTエンジン（Whisper等）にオーディオストリームを流す
 5. **出力**: Discordウェブフック or テキストファイル
 
 モデル学習は MVP 後のフェーズ2で実施。
